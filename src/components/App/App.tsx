@@ -8,7 +8,6 @@ const App: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const hangleImageChange = useCallback((imageFile: Blob) => {
-
     const reader = new FileReader();
     reader.onload = function(evt: ProgressEvent<FileReader>) {
       const img = new Image();
@@ -27,13 +26,12 @@ const App: React.FC = () => {
       img.src = evt!.target!.result as string;
     };
     reader.readAsDataURL(imageFile);
-
   }, []);
 
   return (
     <div className="App">
       <FileInput onChange={hangleImageChange} />
-      <Canvas ref={canvasRef}/>
+      <Canvas ref={canvasRef} />
     </div>
   );
 };

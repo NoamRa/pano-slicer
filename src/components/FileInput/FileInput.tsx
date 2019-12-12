@@ -9,10 +9,13 @@ type FileInputProps = {
 };
 
 const FileInput: React.FC<FileInputProps> = ({ onChange }) => {
-  const handleChange = useCallback(evt => {
-    const imageFile: Blob = evt.target.files[0];
-    onChange(imageFile);
-  }, [onChange]);
+  const handleChange = useCallback(
+    evt => {
+      const imageFile: Blob = evt.target.files[0];
+      onChange(imageFile);
+    },
+    [onChange]
+  );
 
   return (
     <input
