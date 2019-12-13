@@ -7,7 +7,7 @@ import FileInput from "../FileInput";
 const App: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const hangleImageChange = useCallback((imageFile: Blob) => {
+  const handleImageChange = useCallback((imageFile: Blob) => {
     const reader = new FileReader();
     reader.onload = function(evt: ProgressEvent<FileReader>) {
       const img = new Image();
@@ -30,7 +30,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <FileInput onChange={hangleImageChange} />
+      <FileInput onChange={handleImageChange} />
       <Canvas ref={canvasRef} />
     </div>
   );
