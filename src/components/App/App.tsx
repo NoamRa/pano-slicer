@@ -1,11 +1,19 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import "./App.css";
 
 import Canvas from "../Canvas";
 import FileInput from "../FileInput";
+import ImageMetaPresenter, { ImageMeta } from "../ImageMetaPresenter";
+
+const initialImageMeta: ImageMeta = {
+  name: "",
+  width: 0,
+  height: 0
+};
 
 const App: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [imageMeta, setImageMeta] = useState<ImageMeta>(initialImageMeta);
 
   const handleImageChange = useCallback((imageFile: Blob) => {
     const reader = new FileReader();
@@ -14,13 +22,15 @@ const App: React.FC = () => {
       img.onload = function() {
         const canvas = canvasRef.current;
         if (canvas) {
-          canvas.width = img.width;
-          canvas.height = img.height;
+          const { width, height } = img;
+          canvas.width = width;
+          canvas.height = height;
 
           const ctx = canvas.getContext("2d");
           if (ctx) {
             ctx.drawImage(img, 0, 0);
           }
+          setImageMeta({ width, height, name: (imageFile as any).name });
         }
       };
       img.src = evt!.target!.result as string;
@@ -32,6 +42,7 @@ const App: React.FC = () => {
     <div className="App">
       <FileInput onChange={handleImageChange} />
       <Canvas ref={canvasRef} />
+      <ImageMetaPresenter imageMeta={imageMeta}/>
     </div>
   );
 };
