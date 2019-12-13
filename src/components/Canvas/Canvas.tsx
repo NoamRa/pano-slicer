@@ -7,9 +7,9 @@ type CanvasProps = {};
  * @param CanvasProps
  * @param children
  * @param ref
- * @example -
- * const canvasRef = useRef<HTMLCanvasElement>(null);
- * <Canvas ref={canvasRef} />
+ * @example usage (parent component) -
+ *  const canvasRef = useRef<HTMLCanvasElement>(null);
+ *  <Canvas ref={canvasRef} />
  */
 const Canvas: RefForwardingComponent<HTMLCanvasElement, CanvasProps> = (
   { children },
