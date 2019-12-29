@@ -1,9 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Webpack App</title>
-  </head>
-  <body>
-  <script type="text/javascript" src="bundle.js?92e4c17f617922bd2fdf"></script></body>
+
+<head>
+  <title>Panorama Splitter</title>
+  <link rel="stylesheet" href="./styles/styles.css">
+</head>
+
+<body>
+  <div>
+    <input type="file" id="image-picker" accept="image/*" onChange=handleChange />
+    <input type="range" value="2" onChange="handleDesiredPartsChnage" min="1" max="9" />
+  </div>
+  <img id="hidden-image" src="" alt="hidden image" />
+<script type="text/javascript" src="bundle.js"></script></body>
+
 </html>

@@ -1,9 +1,17 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Getting Started</title>
-  </head>
-  <body>
-    <script src="./scripts/main.ts"></script>
-  </body>
+
+<head>
+  <title>Panorama Splitter</title>
+  <link rel="stylesheet" href="./styles/styles.css">
+</head>
+
+<body>
+  <div>
+    <input type="file" id="image-picker" accept="image/*" onChange=handleChange />
+    <input type="range" value="2" onChange="handleDesiredPartsChnage" min="1" max="9" />
+  </div>
+  <img id="hidden-image" src="" alt="hidden image" />
+</body>
+
 </html>

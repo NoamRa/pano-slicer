@@ -1,9 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  mode: "development",
-  entry: "./src/scripts/main.ts",
+  entry: path.resolve(__dirname, "src", "scripts", "main.ts"),
   devtool: "cheap-eval-source-map",
   module: {
     rules: [
@@ -16,10 +16,14 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      hash: true,
-      filename: "index.html",
-      path: path.resolve(__dirname, "dist")
-    })
+      template: path.resolve(__dirname, "src", "index.html")
+    }),
+    new CopyPlugin([
+      {
+        from: path.resolve(__dirname, "src", "styles", "styles.css"),
+        to: path.resolve(__dirname, "dist", "styles")
+      }
+    ])
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".js"]
