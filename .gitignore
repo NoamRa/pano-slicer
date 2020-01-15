@@ -5,11 +5,10 @@
 /.pnp
 .pnp.js
 
-# testing
+# artifacts
 /coverage
-
-# production
 /build
+/dist 
 
 # misc
 .DS_Store
