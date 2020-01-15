@@ -4,11 +4,17 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: path.resolve(__dirname, "src", "scripts", "main.ts"),
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "./",
+    library: "panoSlicer"
+  },
   devtool: "cheap-eval-source-map",
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.ts?$/,
         use: "ts-loader",
         exclude: /node_modules/
       }
@@ -27,9 +33,5 @@ module.exports = {
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".js"]
-  },
-  output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist")
   }
 };
