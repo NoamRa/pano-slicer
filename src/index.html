@@ -8,10 +8,10 @@
 
 <body>
   <div>
-    <input type="file" id="image-picker" accept="image/*" onChange=handleChange />
-    <input type="range" value="2" onChange="handleDesiredPartsChnage" min="1" max="9" />
+    <input type="file" id="image-picker" accept="image/*" onChange="window.panoSlicer.handleImageChange(this)" />
   </div>
   <img id="hidden-image" src="" alt="hidden image" />
+  <canvas id="canvas"></canvas>
 </body>
 
 </html>

@@ -1,3 +1,7 @@
 body {
-  background-color: red;
+  background-color: lightgray;
+}
+
+#hidden-image {
+  display: none;
 }
