@@ -7,11 +7,14 @@
 </head>
 
 <body>
-  <div>
-    <input type="file" id="image-picker" accept="image/*" onChange="window.panoSlicer.handleImageChange(this)" />
-  </div>
-  <img id="hidden-image" src="" alt="hidden image" />
-  <canvas id="canvas"></canvas>
+  <main>
+    <div>
+      <input type="file" id="image-picker" accept="image/*" onchange="window.panoSlicer.handleImageChange(this)" />
+    </div>
+    <img id="hidden-image" src="" alt="hidden image" />
+    <canvas id="canvas"></canvas>
+    <button id="dl-button" onclick="window.panoSlicer.downloadFromCanvas()">Download image</button>
+  </main>
 </body>
 
 </html>
