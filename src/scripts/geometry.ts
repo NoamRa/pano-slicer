@@ -109,14 +109,5 @@ function calcPartsAndLetterBox({
   const gap = desiredHeight - height;
   const letterBox = gap / 2; // divided by two as we want LBX value for top and bottom
 
-  console.log(
-    "sanity:",
-    "width:",
-    width,
-    "height:",
-    height,
-    "canvas height:",
-    height + letterBox * 2
-  );
   return { parts, letterBox };
 }
