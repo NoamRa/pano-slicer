@@ -2,7 +2,6 @@ import { loadImageToCanvas, handleDownload } from "./canvas";
 export { handleDownload };
 
 const HIDDEN_IMAGE_ID = "hidden-image";
-const INPUT_ID = "image-picker";
 
 function getHiddenImage(): HTMLImageElement {
   return document.getElementById(HIDDEN_IMAGE_ID) as HTMLImageElement;

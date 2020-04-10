@@ -5,3 +5,13 @@ body {
 #hidden-image {
   display: none;
 }
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+canvas {
+  padding: 5px;
+}

@@ -6,13 +6,15 @@
   <link rel="stylesheet" href="./styles/styles.css">
 </head>
 
-<body>
-  <main>
+<body class="column">
+  <header>Panorama Splitter</header>
+  <main class="column">
     <div>
       <input type="file" id="image-picker" accept="image/*" onchange="window.panoSlicer.handleImageChange(this)" />
     </div>
     <img id="hidden-image" src="" alt="hidden image" />
     <canvas id="canvas"></canvas>
+    <div id="slices-container"></div>
     <button id="dl-button" onclick="window.panoSlicer.handleDownload()">Download image</button>
   </main>
 </body>

@@ -1,11 +1,11 @@
 export const MAX_DIMENSION = 1080; // max width or height an Instagram image can be
 
-type Dimension = {
+export type Dimension = {
   width: number;
   height: number;
 };
 
-type Line = {
+export type Line = {
   start: {
     x: number;
     y: number;
@@ -16,34 +16,53 @@ type Line = {
   };
 };
 
-function calcLinePositions(
-  imageWidth: number,
-  desiredParts: number
-): number[] {
+export type Slice = {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+};
+
+function calcLinePositions(imageWidth: number, desiredParts: number): number[] {
   const partWidth = imageWidth / desiredParts;
   const numberOfLines = desiredParts - 1;
   const lines = Array.from(
     { length: numberOfLines },
-    (_, idx) => idx + 1
-  ).map(partIdx => Math.round(partIdx * partWidth));
+    (_, idx) => idx + 1,
+  ).map((partIdx) => Math.round(partIdx * partWidth));
   return lines;
 }
 
 export function calcLineCoordinates(
   imageDimension: Dimension,
-  parts: number
+  parts: number,
 ): Line[] {
   const linePositions = calcLinePositions(imageDimension.width, parts);
-  return linePositions.map(pos => ({
+  return linePositions.map((pos) => ({
     start: {
       x: pos,
-      y: 0
+      y: 0,
     },
     end: {
       x: pos,
-      y: imageDimension.height
-    }
+      y: imageDimension.height,
+    },
   }));
+}
+
+export function calcSlices({ width, height }: Dimension): Slice[] {
+  const parts = width / height; // this should be an integer
+  const partWidth = width / parts;
+  const sliceCoords = [];
+  for (let part = 0; part < parts; part++) {
+    sliceCoords.push({
+      x: partWidth * part,
+      y: 0,
+      w: partWidth,
+      h: height,
+    });
+  }
+  return sliceCoords;
 }
 
 type Parts = number; // interger
@@ -55,7 +74,7 @@ type CalcPartsAndLetterBoxRet = {
 
 export function scaler(
   { width, height }: Dimension,
-  maxDimension: number = MAX_DIMENSION
+  maxDimension: number = MAX_DIMENSION,
 ): {
   scaledImageDimension: Dimension;
   canvasDimension: Dimension;
@@ -75,18 +94,18 @@ export function scaler(
 
   const { parts, letterBox } = calcPartsAndLetterBox({
     width: scaledWidth,
-    height: scaledHeight
+    height: scaledHeight,
   });
 
   return {
     scaledImageDimension: { width: scaledWidth, height: scaledHeight },
     canvasDimension: {
       width: scaledWidth,
-      height: scaledHeight + letterBox * 2
+      height: scaledHeight + letterBox * 2,
     },
     scaleFactor,
     parts,
-    letterBox
+    letterBox,
   };
 }
 
@@ -100,7 +119,7 @@ export function scaler(
  */
 function calcPartsAndLetterBox({
   width,
-  height
+  height,
 }: Dimension): CalcPartsAndLetterBoxRet {
   if (height >= width) return { parts: 1, letterBox: 0 };
 

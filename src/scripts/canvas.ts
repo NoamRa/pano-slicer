@@ -1,4 +1,4 @@
-import { calcLineCoordinates, scaler } from "./geometry";
+import { calcLineCoordinates, scaler, calcSlices, Slice } from "./geometry";
 const CANVAS_ID = "canvas";
 
 function getCanvas(): HTMLCanvasElement {
@@ -15,12 +15,43 @@ export function loadImageToCanvas(imageFile: File, drawLines: boolean) {
     image.src = imageReader.result as string;
   }
 
+  function createSlice(
+    slice: Slice,
+    index: number,
+    letterBox: number,
+  ): HTMLCanvasElement {
+    const sliceEl: HTMLCanvasElement = document.createElement("canvas");
+    sliceEl.id = `${imageFile.name}-slice-${index + 1}`;
+    sliceEl.width = slice.w;
+    sliceEl.height = slice.h;
+
+    const ctx = sliceEl.getContext("2d");
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, sliceEl.width, sliceEl.height);
+
+    // orig image coords
+    const sx = index * slice.w;
+    const sy = 0;
+    const sWidth = slice.w;
+    const sHeight = slice.h;
+
+    // destination coords
+    const dx = 0;
+    const dy = letterBox;
+    const dWidth = sWidth;
+    const dHeight = sHeight;
+
+    ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+
+    return sliceEl;
+  }
+
   function imageLoaded() {
     const canvas = getCanvas();
 
     const { scaledImageDimension, canvasDimension, parts, letterBox } = scaler({
       width: image.width,
-      height: image.height
+      height: image.height,
     });
 
     canvas.width = canvasDimension.width;
@@ -28,7 +59,7 @@ export function loadImageToCanvas(imageFile: File, drawLines: boolean) {
 
     const lines = calcLineCoordinates(
       { width: canvas.width, height: canvas.height },
-      parts
+      parts,
     );
 
     const ctx = canvas.getContext("2d");
@@ -40,7 +71,7 @@ export function loadImageToCanvas(imageFile: File, drawLines: boolean) {
       0,
       letterBox,
       scaledImageDimension.width,
-      scaledImageDimension.height
+      scaledImageDimension.height,
     );
 
     if (drawLines) {
@@ -53,6 +84,19 @@ export function loadImageToCanvas(imageFile: File, drawLines: boolean) {
         ctx.stroke();
       });
     }
+    const slices = calcSlices({
+      width: canvasDimension.width,
+      height: canvasDimension.height,
+    });
+
+    const slicesContainer = document.getElementById("slices-container");
+    while (slicesContainer.hasChildNodes()) {
+      slicesContainer.removeChild(slicesContainer.lastChild);
+    }
+    slices.forEach((slice, index) => {
+      const sliceEl = createSlice(slice, index, letterBox);
+      slicesContainer.appendChild(sliceEl);
+    });
   }
 
   imageReader = new FileReader();
@@ -62,11 +106,11 @@ export function loadImageToCanvas(imageFile: File, drawLines: boolean) {
 
 enum ImageType {
   png = "png",
-  jpeg = "jpg"
+  jpeg = "jpg",
 }
 function downloadFromCanvas(
   canvas: HTMLCanvasElement,
-  imgType: ImageType = ImageType.png
+  imgType: ImageType = ImageType.png,
 ) {
   const type = `image/${imgType}`;
   const img = canvas.toDataURL(type);
