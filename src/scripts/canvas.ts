@@ -1,5 +1,5 @@
 import { calcLineCoordinates, scaler, calcSlices, Slice } from "./geometry";
-const CANVAS_ID = "canvas";
+const CANVAS_ID = "preview-canvas";
 
 function getMainCanvas(): HTMLCanvasElement {
   return document.getElementById(CANVAS_ID) as HTMLCanvasElement;
@@ -96,9 +96,10 @@ export function loadImageToCanvas(imageFile: File, drawLines: boolean) {
     }
     slices.forEach((slice, index, slices) => {
       const canvasAndButtonWrapperEl: HTMLDivElement = document.createElement("div");
-      canvasAndButtonWrapperEl.classList.add("column");
+      canvasAndButtonWrapperEl.classList.add("column", "fit-in-parent");
 
       const sliceEl = createSlice(slice, index, letterBox);
+      sliceEl.classList.add("slice-canvas");
       canvasAndButtonWrapperEl.appendChild(sliceEl);
       
       const buttonEl = document.createElement("button");
