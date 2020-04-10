@@ -13,9 +13,10 @@
       <input type="file" id="image-picker" accept="image/*" onchange="window.panoSlicer.handleImageChange(this)" />
     </div>
     <img id="hidden-image" src="" alt="hidden image" />
-    <canvas id="canvas"></canvas>
-    <div id="slices-container"></div>
+    <canvas id="canvas" data-downloadName="preview"></canvas>
     <button id="dl-button" onclick="window.panoSlicer.handleDownload()">Download image</button>
+
+    <div id="slices-container"></div>
   </main>
 </body>
 

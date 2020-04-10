@@ -1,7 +1,7 @@
 import { calcLineCoordinates, scaler, calcSlices, Slice } from "./geometry";
 const CANVAS_ID = "canvas";
 
-function getCanvas(): HTMLCanvasElement {
+function getMainCanvas(): HTMLCanvasElement {
   return document.getElementById(CANVAS_ID) as HTMLCanvasElement;
 }
 
@@ -22,6 +22,7 @@ export function loadImageToCanvas(imageFile: File, drawLines: boolean) {
   ): HTMLCanvasElement {
     const sliceEl: HTMLCanvasElement = document.createElement("canvas");
     sliceEl.id = `${imageFile.name}-slice-${index + 1}`;
+    sliceEl.dataset.downloadName = `${imageFile.name} slice ${index + 1}`
     sliceEl.width = slice.w;
     sliceEl.height = slice.h;
 
@@ -47,7 +48,7 @@ export function loadImageToCanvas(imageFile: File, drawLines: boolean) {
   }
 
   function imageLoaded() {
-    const canvas = getCanvas();
+    const canvas = getMainCanvas();
 
     const { scaledImageDimension, canvasDimension, parts, letterBox } = scaler({
       width: image.width,
@@ -93,9 +94,19 @@ export function loadImageToCanvas(imageFile: File, drawLines: boolean) {
     while (slicesContainer.hasChildNodes()) {
       slicesContainer.removeChild(slicesContainer.lastChild);
     }
-    slices.forEach((slice, index) => {
+    slices.forEach((slice, index, slices) => {
+      const canvasAndButtonWrapperEl: HTMLDivElement = document.createElement("div");
+      canvasAndButtonWrapperEl.classList.add("column");
+
       const sliceEl = createSlice(slice, index, letterBox);
-      slicesContainer.appendChild(sliceEl);
+      canvasAndButtonWrapperEl.appendChild(sliceEl);
+      
+      const buttonEl = document.createElement("button");
+      buttonEl.innerText = `Download image ${index+1} / ${slices.length}`
+      buttonEl.addEventListener("click", () => downloadFromCanvas(sliceEl))
+      canvasAndButtonWrapperEl.appendChild(buttonEl);
+
+      slicesContainer.appendChild(canvasAndButtonWrapperEl);
     });
   }
 
@@ -116,7 +127,7 @@ function downloadFromCanvas(
   const img = canvas.toDataURL(type);
   // const currentHref = window.location.href;
   const link = document.createElement("a");
-  link.download = `canvas.${imgType}`;
+  link.download = `${canvas.dataset.downloadName}.${imgType}` || `canvas.${imgType}`;
   link.href = img;
   link.click();
   // window.location.href = img.replace(type, "image/octet-stream");
@@ -124,6 +135,6 @@ function downloadFromCanvas(
 }
 
 export function handleDownload() {
-  const canvas = getCanvas();
+  const canvas = getMainCanvas();
   downloadFromCanvas(canvas);
 }
