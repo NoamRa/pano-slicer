@@ -110,7 +110,7 @@ export function scaler(
 }
 
 /**
- * @function calculates how manny parts should the pano be split to and the letterBox height to add
+ * @function calculates how many parts should the pano be split to and the letterBox height to add
  * @param dimension.width - image width
  * @param dimension.height - image height
  * @var parts - Integer. The number of parts the panorama will fit in. It's round up of width / height
@@ -126,7 +126,7 @@ function calcPartsAndLetterBox({
   const parts = Math.trunc(width / height);
   const desiredHeight = width / parts;
   const gap = desiredHeight - height;
-  const letterBox = gap / 2; // divided by two as we want LBX value for top and bottom
+  const letterBox = gap / 2; // divided by two as we want letterBox value for top and bottom
 
   return { parts, letterBox };
 }
